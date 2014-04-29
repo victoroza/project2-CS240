@@ -1,12 +1,19 @@
 //Put any include statements here
 #include <string>
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <vector>
 
 //This class will be used to create a graph library.
 
 class Graph{
 	private:
 		//Put your private data members here
+		bool directed;
+		int numVerticies;
+	    int numEdges;
+	    std::vector<std::vector<double>> directed_matrix;
 		//Put your private methods here
 	public:
 		//Construct
@@ -32,7 +39,7 @@ class Graph{
 		//Breadth First Traverse
 		void BFT(int source);
 		//Closeness
-		int closeness(std::string v1, std::stringv2);
+		int closeness(std::string v1, std::string v2);
 		//* Partition
 		bool partitionable();
 		//* MST
