@@ -47,9 +47,9 @@ void Graph::readFromFile(string file){
         cout << weight << endl;
         (directed_matrix[v1])[v2] = weight;
     }
-    for(int i = 0; i < (numVerticies+1); i++){
-        for(int f = 0; f < (numVerticies+1); f++){
-            cout << directed_matrix[i][f] << " ";
+    for(int i = 1; i < (numVerticies+1); i++){
+        for(int f = 1; f < (numVerticies+1); f++){
+            cout << directed_matrix[i][f] << "\t";
         }
         cout << endl;
     }
@@ -58,11 +58,20 @@ void Graph::readFromFile(string file){
 
 
 void Graph::writeToFile(string file){
-    
+    ofstream myfile;
+    myfile.open(file);
+    if(myfile.is_open()){
+        
+    }
 }
 
 bool Graph::empty(){
-    
+    if(numVerticies > 0}{
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 
 void Graph::addEdge(int v1, int v2, double weight){
