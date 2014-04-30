@@ -1,7 +1,9 @@
-include "Graph.h"
+#include "Graph.h"
 
 using namespace std;
 
-int main(argc, agrv[0]){
-    
+int main(){
+    Graph g1;
+    g1.readFromFile("test.txt");
+    return 0;
 }

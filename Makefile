@@ -3,7 +3,7 @@ FLAGS = -g -Wall -std=c++0x
 EXE = project2
 
 all: Graph.o driver.o
-	$(COMPILER) $(FLAGS) -c $(EXE) Graph.o driver.o
+	$(COMPILER) $(FLAGS) -o $(EXE) Graph.o driver.o
 	
 driver.o: driver.cpp
 	$(COMPILER) $(FLAGS) -c driver.cpp

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <vector>
+#include <map>
 
 //This class will be used to create a graph library.
 
@@ -13,7 +13,7 @@ class Graph{
 		bool directed;
 		int numVerticies;
 	    int numEdges;
-	    std::vector<std::vector<double>> directed_matrix;
+	    std::map<int, std::map<int, double>> directed_matrix;
 		//Put your private methods here
 	public:
 		//Construct

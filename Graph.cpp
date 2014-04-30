@@ -8,6 +8,10 @@ Graph::Graph(){
     directed = true;
 }
 
+Graph::~Graph(){
+    
+}
+
 void Graph::readFromFile(string file){
     string line;
     ifstream myfile;
@@ -27,10 +31,29 @@ void Graph::readFromFile(string file){
         ss1 >> buffer;
         numEdges = buffer;
     }
-    vector<double> startVec(numVerticies*2, -1);
-    for(int i = 0; i < numVerticies; i++){
-        directed_matrix.push_back(startVec);
+    map<int, double> startVec;
+    for(int i = 1; i < (numVerticies+1); i++){
+        directed_matrix[i] = startVec;
     }
+    while(!myfile.eof()){
+        int v1;
+        int v2;
+        double weight;
+        myfile >> v1;
+        cout << v1 << endl;
+        myfile >> v2;
+        cout << v2 << endl;
+        myfile >> weight;
+        cout << weight << endl;
+        (directed_matrix[v1])[v2] = weight;
+    }
+    for(int i = 0; i < (numVerticies+1); i++){
+        for(int f = 0; f < (numVerticies+1); f++){
+            cout << directed_matrix[i][f] << " ";
+        }
+        cout << endl;
+    }
+    
 }
 
 
