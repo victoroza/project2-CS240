@@ -5,6 +5,7 @@
 #include <sstream>
 #include <map>
 #include <iomanip>
+#include <stdexcept>
 
 //This class will be used to create a graph library.
 
@@ -47,4 +48,7 @@ class Graph{
 		bool MST(const Graph& g, std::string file);
 		//* Step Away
 		void stepAway(int value, std::string file);
+		
+		//Print out matrix
+		void printOutMatrix();
 };

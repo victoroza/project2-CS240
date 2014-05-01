@@ -47,13 +47,16 @@ void Graph::readFromFile(string file){
         cout << weight << endl;
         (directed_matrix[v1])[v2] = weight;
     }
+    
+}
+
+void Graph::printOutMatrix(){
     for(int i = 1; i < (numVerticies+1); i++){
         for(int f = 1; f < (numVerticies+1); f++){
             cout << directed_matrix[i][f] << "\t";
         }
         cout << endl;
     }
-    
 }
 
 
@@ -66,20 +69,30 @@ void Graph::writeToFile(string file){
 }
 
 bool Graph::empty(){
-    if(numVerticies > 0}{
-        return true;
+    if(numVerticies > 0){
+        return false;
     }
     else{
-        return false;
+        return true;
     }
 }
 
 void Graph::addEdge(int v1, int v2, double weight){
-    
+    if(v1 <= numVerticies && v2 <= numVerticies){
+        (directed_matrix[v1])[v2] = weight;
+    }
+    else{
+        throw out_of_range("No such vertex");
+    }
 }
 
 void Graph::addVertex(){
-    
+    numVerticies++;
+    map<int, double> mapToAdd;
+    directed_matrix[numVerticies] = mapToAdd;
+    //for(int i = 1; i < (numVerticies); i++){
+    //    (directed_matrix[i])[numVerticies] = 0;
+    //}
 }
 
 int Graph::numConnectedComponents(){
