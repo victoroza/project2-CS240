@@ -8,6 +8,8 @@
 #include <stdexcept>
 #include <climits>
 #include <stack>
+#include <queue>
+#include <utility>
 
 //This class will be used to create a graph library.
 enum Type {DIRECTED,UNDIRECTED};
@@ -15,44 +17,20 @@ enum Type {DIRECTED,UNDIRECTED};
 class Graph{
 	private:
 		//Put your private data members here
-		bool directed;
-		int numVerticies;
+		int numVertices;
 	    int numEdges;
-	    std::map<int, std::map<int, double>> directed_matrix;
-		//Put your private methods here
-	/*public:
-		//Construct
-		Graph();
-		//Delete
-		~Graph();
-		//Read A Graph From A File
-		void readFromFile(std::string file);
-		//Write A Graph To A File
-		void writeToFile(std::string file);
-		//Empty
-		bool empty();
-		//Add Edge
-		void addEdge(int v1, int v2, double weight);
-		//Add Vertex
-		void addVertex();
-		//Count Connected Components
-		int numConnectedComponents();
-		//Tree Check
-		bool tree();
-		//Depth First Traverse
-		void DFT(int source);
-		//Breadth First Traverse
-		void BFT(int source);
-		//Closeness
-		int closeness(std::string v1, std::string v2);
-		// Partition
-		bool partitionable();
-		// MST
-		bool MST(const Graph& g, std::string file);
-		// Step Away
-		void stepAway(int value, std::string file);
-	*/
+	    std::map<int, std::map<int, double>> directed_matrix; //using for everything
+	    std::map<int, std::map<int, double>> always_udm;
+	    std::map<int, std::map<int, int>> stepAwayMap;
+	    Type graphType;
+	    std::map<int, bool> checked_DFT;
+        std::map<int, bool> done_DFT;
+	    void DFT_helper(int source);
+	    int numConnectedComps;
+	    std::map<int, std::map<int, bool>> connectedComps;
 	public:
+	    
+	    //Put your private methods here
 		//Construct an empty graph of the specified type
 		Graph(Type t);
 		//Delete a graph
