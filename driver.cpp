@@ -18,9 +18,11 @@ int main(int argc, char* argv[]){
     //Graph g2(Type::DIRECTED); // empty
     //g1.readFromFile("testlarge.txt");
     g1.printOutMatrix();
+    //g1.addVertex();
+    //g1.addEdge(7, 8, 1.2);
     //cout << "Connected: " << g1.numConnectedComponents() << endl;
-    //cout << "PART: " << g1.partitionable();
-    g1.MST("MST.txt");
+    cout << "PART: " << g1.partitionable();
+    //g1.MST("MST.txt");
     cout << endl;
     //cout << g1.tree() << endl;
     

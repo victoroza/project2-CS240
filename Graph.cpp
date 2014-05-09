@@ -420,81 +420,92 @@ bool Graph::partitionable(){
     }
     queue<int> toTraverse;
     int source = 1;
-    int currentNode = source;
-    if(source > numVertices || source < 1){
-        //myfile.close();
-        return false;
-    }
-    cout << source << endl;
-    blues[source] = true;
-    cout << "BLUE: " << source << endl;
-    if((always_udm[source])[0] != 0){
-        for(int i = 1; i <= numVertices; i++){
-            if((always_udm[source])[i] != 0){
-                cout << i << endl;
-                
-                toTraverse.push(i);
-                checked[i] = true;
-                if(isRed){
-                    reds[i] = true;
-                    //isRed = false;
-                    cout << "RED: " << i << endl;
-                }
-                else{
-                    blues[i] = true;
-                    cout << "BLUE: " << i << endl;
-                    //isRed = true;
-                }
-            }
-            else{
-                checked[i] = false;
-            }
-        }
+    bool notDone = true;
+    while(notDone){
+        int currentNode = source;
+        cout << "SOURCE: " << source << endl;
+        //if(source > numVertices || source < 1){
+        //    //myfile.close();
+        //    return false;
+        //}
+        cout << source << endl;
+        blues[source] = true;
+        cout << "BLUE: " << source << endl;
         checked[source] = true;
-        if(!toTraverse.empty()){
-            cout << "GETTING HERE" << endl;
-            currentNode = toTraverse.front();
-            toTraverse.pop();
-            while(currentNode != 0){
-                cout << "CURRENT: " << currentNode << endl;
-                if(reds[currentNode] == true){
-                    cout << "switched to blue" << endl;
-                    isRed = false;
-                }
-                else{
-                    cout << "switched to red" << endl;
-                    isRed = true;
-                }
-                for(int i = 1; i <= numVertices; i++){
-                    if((always_udm[currentNode])[i] != 0){ //&& checked[i] != true){
-                        cout << i << endl;
-                        if(checked[i] != true){
-                            toTraverse.push(i);
-                            checked[i] = true;
-                        }
-                        
-                        if(isRed){
-                            if(blues[i] == true){
-                                return false;
-                            }
-                            reds[i] = true;
-                            cout << "RED: " << i << endl;
-                            //isRed = false;
-                        }
-                        else{
-                            if(reds[i] == true){
-                                return false;
-                            }
-                            blues[i] = true;
-                            //isRed = true;
-                            cout << "BLUE: " << i << endl;
-                        }
+        if((always_udm[source])[0] != 0){
+            for(int i = 1; i <= numVertices; i++){
+                if((always_udm[source])[i] != 0){
+                    cout << i << endl;
+                    
+                    toTraverse.push(i);
+                    checked[i] = true;
+                    if(isRed){
+                        reds[i] = true;
+                        //isRed = false;
+                        cout << "RED: " << i << endl;
+                    }
+                    else{
+                        blues[i] = true;
+                        cout << "BLUE: " << i << endl;
+                        //isRed = true;
                     }
                 }
+            }
+            checked[source] = true;
+            if(!toTraverse.empty()){
+                cout << "GETTING HERE" << endl;
                 currentNode = toTraverse.front();
                 toTraverse.pop();
-                
+                while(currentNode != 0){
+                    cout << "CURRENT: " << currentNode << endl;
+                    if(reds[currentNode] == true){
+                        cout << "switched to blue" << endl;
+                        isRed = false;
+                    }
+                    else{
+                        cout << "switched to red" << endl;
+                        isRed = true;
+                    }
+                    for(int i = 1; i <= numVertices; i++){
+                        if((always_udm[currentNode])[i] != 0){ //&& checked[i] != true){
+                            cout << i << endl;
+                            if(checked[i] != true){
+                                toTraverse.push(i);
+                                checked[i] = true;
+                            }
+                            
+                            if(isRed){
+                                if(blues[i] == true){
+                                    return false;
+                                }
+                                reds[i] = true;
+                                cout << "RED: " << i << endl;
+                                //isRed = false;
+                            }
+                            else{
+                                if(reds[i] == true){
+                                    return false;
+                                }
+                                blues[i] = true;
+                                //isRed = true;
+                                cout << "BLUE: " << i << endl;
+                            }
+                        }
+                    }
+                    currentNode = toTraverse.front();
+                    toTraverse.pop();
+                    
+                }
             }
+        }
+        source = -1;
+        for(int i = 1; i <= numVertices; i++){
+            if(checked[i] != true){
+                source = i;
+            }
+        }
+        if(source == -1){
+            notDone = false;
         }
     }
     return true;
