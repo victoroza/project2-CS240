@@ -19,7 +19,8 @@ int main(int argc, char* argv[]){
     //g1.readFromFile("testlarge.txt");
     g1.printOutMatrix();
     //cout << "Connected: " << g1.numConnectedComponents() << endl;
-    cout << "PART: " << g1.partitionable();
+    //cout << "PART: " << g1.partitionable();
+    g1.MST("MST.txt");
     cout << endl;
     //cout << g1.tree() << endl;
     

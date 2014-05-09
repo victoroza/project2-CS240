@@ -60,6 +60,7 @@ void Graph::readFromFile(string file){
         myfile >> v2;
         myfile >> weight;
         (directed_matrix[v1])[v2] = weight;
+        sortedList.insert(make_pair((directed_matrix[v1])[v2], make_pair(v1, v2)));
         (always_udm[v1])[v2] = weight;
         if(graphType == UNDIRECTED){
             (directed_matrix[v2])[v1] = weight;
@@ -141,6 +142,7 @@ void Graph::addEdge(int v1, int v2, double weight){
     numConnectedComps = -1;
     if(v1 <= numVertices && v2 <= numVertices){
         (directed_matrix[v1])[v2] = weight;
+        sortedList.insert(make_pair((directed_matrix[v1])[v2], make_pair(v1, v2)));
         (directed_matrix[v1])[0]++;
         (always_udm[v1])[v2] = weight;
         (always_udm[v1])[0]++;
@@ -474,6 +476,7 @@ bool Graph::partitionable(){
     map<int, bool> reds;
     map<int, bool> blues;
     bool isRed = true;
+    int qCount = 0;
     for(int i = 1; i <= numVertices; i++){
         reds[i] = false;
         blues[i] = false;
@@ -497,12 +500,13 @@ bool Graph::partitionable(){
                 checked[i] = true;
                 if(isRed){
                     reds[i] = true;
-                    isRed = false;
-                    cout << "RED: " << i; << endl;
+                    //isRed = false;
+                    cout << "RED: " << i << endl;
                 }
                 else{
                     blues[i] = true;
-                    isRed = true;
+                    cout << "BLUE: " << i << endl;
+                    //isRed = true;
                 }
             }
             else{
@@ -511,27 +515,42 @@ bool Graph::partitionable(){
         }
         checked[source] = true;
         if(!toTraverse.empty()){
+            cout << "GETTING HERE" << endl;
             currentNode = toTraverse.front();
             toTraverse.pop();
             while(currentNode != 0){
+                cout << "CURRENT: " << currentNode << endl;
+                if(reds[currentNode] == true){
+                    cout << "switched to blue" << endl;
+                    isRed = false;
+                }
+                else{
+                    cout << "switched to red" << endl;
+                    isRed = true;
+                }
                 for(int i = 1; i <= numVertices; i++){
-                    if((always_udm[currentNode])[i] != 0){
+                    if((always_udm[currentNode])[i] != 0){ //&& checked[i] != true){
                         cout << i << endl;
-                        toTraverse.push(i);
-                        checked[i] = true;
-                        if(isRed){
-                            if(reds[i] == true){
-                                return false;
-                            }
-                            reds[i] = true;
-                            isRed = false;
+                        if(checked[i] != true){
+                            toTraverse.push(i);
+                            checked[i] = true;
                         }
-                        else{
+                        
+                        if(isRed){
                             if(blues[i] == true){
                                 return false;
                             }
+                            reds[i] = true;
+                            cout << "RED: " << i << endl;
+                            //isRed = false;
+                        }
+                        else{
+                            if(reds[i] == true){
+                                return false;
+                            }
                             blues[i] = true;
-                            isRed = true;
+                            //isRed = true;
+                            cout << "BLUE: " << i << endl;
                         }
                     }
                 }
@@ -547,7 +566,7 @@ bool Graph::partitionable(){
 bool Graph::MST(string file){
     ofstream myfile;
     myfile.open (file);
-    map<int, bool>::iterator imm;
+    //map<int, bool>::iterator imm;
     //cout << "Num of connected: " << numConnectedComps << endl;
     //for(int i = 1; i <= numConnectedComps; i++){
     //    cout << i << ": ";
@@ -556,6 +575,8 @@ bool Graph::MST(string file){
     //    }
     //    cout << endl;
     //}
+    
+    /*
     int countConnected = 0;
     multimap<double,pair<int, int>> sortedList;
     for(int i = 1; i <= numVertices; i++){
@@ -578,6 +599,8 @@ bool Graph::MST(string file){
             }
         }
     }
+    */
+    
     multimap<double, pair<int, int>>::iterator it;
    // for(it= sortedList.begin(); it != sortedList.end(); it++){
     //    cout << (*it).first << "   (" << get<0>((*it).second) << ", " << get<1>((*it).second) << ")" << endl;
