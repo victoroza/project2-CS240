@@ -13,5 +13,5 @@ THINGS TO DO
 #11. BFT
 #12. closeness - fixed for multi directional
 13. partition - NEED TO CHANGE FOR TREES
-14. MST - basically done (NEED TO CHANGE TO MULTIMAP)
+#14. MST - 
 #15. Step Away - fixed for multi directional

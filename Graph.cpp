@@ -188,37 +188,6 @@ void Graph::addVertex(){
 }
 
 int Graph::numConnectedComponents(){
-    //WORKING ON THIS
-    /*
-    
-    int countConnected = 0;
-    multimap<double,pair<int, int>> sortedList;
-    for(int i = 1; i <= numVertices; i++){
-        if((directed_matrix[i])[0] != 0){
-            for(int n = 1; n <= numVertices; n++){
-                bool found = false;
-                int count = sortedList.count(((directed_matrix[i])[n]));
-                if(count > 0){
-                    multimap<double,pair<int, int>>::iterator it;
-                    for (it=sortedList.equal_range(((directed_matrix[i])[n])).first; it!=sortedList.equal_range(((directed_matrix[i])[n])).second; it++){
-                        if((*it).second == make_pair(n, i)){
-                            found = true;
-                        }
-                    }
-                }
-                if(!found && (directed_matrix[i])[n] != 0){
-                    sortedList.insert(make_pair((directed_matrix[i])[n], make_pair(i, n)));
-                    cout << i << "   " << n << endl;
-                }
-            }
-        }
-    }
-    multimap<double, pair<int, int>>::iterator it;
-    for(it= sortedList.begin(); it != sortedList.end(); it++){
-        cout << (*it).first << "   (" << get<0>((*it).second) << ", " << get<1>((*it).second) << ")" << endl;
-    }
-    */
-    
     int countConnected = 0;
     int currentNode;
     map<int, bool> checked;
@@ -440,38 +409,6 @@ int Graph::closeness(int v1, int v2){
 }
 
 bool Graph::partitionable(){
-    /*map<int, bool> reds;
-    map<int, bool> blacks;
-    if((directed_matrix[source])[0] != 0){
-        for(int i = 1; i <= numVertices; i++){
-            if((directed_matrix[source])[i] != 0){
-                cout << i << endl;
-                toTraverse.push(i);
-                checked[i] = true;
-            }
-            else{
-                checked[i] = false;
-            }
-        }
-        checked[source] = true;
-        if(toTraverse.empty()){
-            return;
-        }
-        currentNode = toTraverse.front();
-        toTraverse.pop();
-        while(currentNode != 0){
-            for(int i = 1; i <= numVertices; i++){
-                if((directed_matrix[currentNode])[i] != 0 && checked[i] != true){
-                    cout << i << endl;
-                    toTraverse.push(i);
-                    checked[i] = true;
-                }
-            }
-            currentNode = toTraverse.front();
-            toTraverse.pop();
-            
-        }
-    }*/
     map<int, bool> checked;
     map<int, bool> reds;
     map<int, bool> blues;
