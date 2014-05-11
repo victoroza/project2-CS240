@@ -267,33 +267,101 @@ bool Graph::tree(){
 }
 
 void Graph::DFT(int source, string file){
-    //map<int, bool> checked; //MOVED THESE TO PRIVATE VARIABLES
-    //map<int, bool> done; //MOVED TO PRIVATE
+    ofstream myfile;
+    myfile.open (file);
+    if(source > numVertices || source < 1){
+        myfile.close();
+        return;
+    }
+    //cout << directed_matrix[source][0] << endl;
+    //DFT_stack.push(source);
     checked_DFT[source] = true;
+    vector<double> DFT_temp_order;
     for(int i = 1; i <= numVertices; i++){
-        if((directed_matrix[source])[i] > 0){
-            DFT_helper(i);
-            done_DFT[source] = true;
+        if(directed_matrix[source][i] > 0){
+            DFT_temp_order.push_back(directed_matrix[source][i]);
         }
     }
-    
-    //Print to file before clear
-    
-    //Just clear them once the function is over
-    checked_DFT.clear();
-    done_DFT.clear();
-}
-
-void Graph::DFT_helper(int source){
-    checked_DFT[source] = true;
-    for(int i = 1; i <= numVertices; i++){
-        if((directed_matrix[source])[i] > 0){
-            if(checked_DFT[i] != true){
-                DFT_helper(i);
-                done_DFT[source] = true;
+    sort(DFT_temp_order.begin(), DFT_temp_order.end());//sort the temp list. Will be looking to match the value to know which vertices to traverse first.
+    queue<int> DFT_true_order;
+    while(DFT_true_order.size() != DFT_temp_order.size()){//getting the list in the correct order of vertices to get ready to traverse
+        for(int i = 0; i < DFT_temp_order.size(); i++){
+            for(int j = 1; j <= numVertices; j++){
+                if(directed_matrix[source][j] == DFT_temp_order[i]){
+                    DFT_true_order.push(j);
+                }
             }
         }
     }
+    int size = DFT_true_order.size();
+    for(int i = 1; i <= size; i++){
+        int temp = DFT_true_order.front();
+        if(checked_DFT[temp] != true){
+            //DFT_stack.push(temp);
+            checked_DFT[temp] = true;
+            DFT_helper(temp);
+	    //DFT_queue.push(temp);
+        }
+        DFT_true_order.pop();
+    }
+    DFT_queue.push(source);
+    
+    //Print to file before clear
+    int queue_size = DFT_queue.size();
+    for(int i = 0; i < queue_size; i++){
+        int temp = DFT_queue.front();
+        myfile << temp << endl;
+        DFT_queue.pop();
+    }
+    myfile.close();
+    
+    
+    //Just clear them once the function is over
+    checked_DFT.clear();
+   // while (!DFT_queue.empty()) // gonna need this here since it is global and we need to clear the containers Do we need this I do this in line 292???
+    //{
+   //     DFT_stack.pop();
+  //  }
+    //done_DFT.clear();
+    return;
+}
+
+void Graph::DFT_helper(int source){
+   
+    vector<double> DFT_temp_order;
+    for(int i = 1; i <= numVertices; i++){
+        if(directed_matrix[source][i] > 0){
+            DFT_temp_order.push_back(directed_matrix[source][i]);
+        }
+    }
+    std::sort(DFT_temp_order.begin(), DFT_temp_order.end());//sort the temp list. Will be looking to match the value to know which vertices to traverse first.
+    queue<int> DFT_true_order;
+    while(DFT_true_order.size() != DFT_temp_order.size()){//getting the list in the correct order of vertices to get ready to traverse
+        for(int i = 0; i < DFT_temp_order.size(); i++){
+            for(int j = 1; j <= numVertices; j++){
+                if(directed_matrix[source][j] == DFT_temp_order[i]){
+                    DFT_true_order.push(j);
+                }
+            }
+        }
+    }
+    
+    for(int i = 1; i <= DFT_true_order.size() ; i++){
+        int temp = DFT_true_order.front();
+        if(checked_DFT[temp] != true){
+            //DFT_stack.push(temp);
+            checked_DFT[temp] = true;
+            DFT_helper(temp);
+	    //DFT_queue.push(temp);
+        }
+        DFT_true_order.pop();
+    }
+    DFT_queue.push(source);
+
+    return;
+    
+    
+   
 }
 
 void Graph::BFT(int source, string file){
@@ -423,52 +491,38 @@ bool Graph::partitionable(){
     bool notDone = true;
     while(notDone){
         int currentNode = source;
-        cout << "SOURCE: " << source << endl;
-        //if(source > numVertices || source < 1){
-        //    //myfile.close();
-        //    return false;
-        //}
-        cout << source << endl;
         blues[source] = true;
-        cout << "BLUE: " << source << endl;
         checked[source] = true;
         if((always_udm[source])[0] != 0){
             for(int i = 1; i <= numVertices; i++){
                 if((always_udm[source])[i] != 0){
-                    cout << i << endl;
                     
                     toTraverse.push(i);
                     checked[i] = true;
                     if(isRed){
                         reds[i] = true;
                         //isRed = false;
-                        cout << "RED: " << i << endl;
                     }
                     else{
                         blues[i] = true;
-                        cout << "BLUE: " << i << endl;
                         //isRed = true;
                     }
                 }
             }
             checked[source] = true;
             if(!toTraverse.empty()){
-                cout << "GETTING HERE" << endl;
                 currentNode = toTraverse.front();
                 toTraverse.pop();
                 while(currentNode != 0){
-                    cout << "CURRENT: " << currentNode << endl;
                     if(reds[currentNode] == true){
-                        cout << "switched to blue" << endl;
                         isRed = false;
                     }
                     else{
-                        cout << "switched to red" << endl;
                         isRed = true;
                     }
                     for(int i = 1; i <= numVertices; i++){
                         if((always_udm[currentNode])[i] != 0){ //&& checked[i] != true){
-                            cout << i << endl;
+                            //cout << i << endl;
                             if(checked[i] != true){
                                 toTraverse.push(i);
                                 checked[i] = true;
@@ -479,7 +533,6 @@ bool Graph::partitionable(){
                                     return false;
                                 }
                                 reds[i] = true;
-                                cout << "RED: " << i << endl;
                                 //isRed = false;
                             }
                             else{
@@ -488,7 +541,6 @@ bool Graph::partitionable(){
                                 }
                                 blues[i] = true;
                                 //isRed = true;
-                                cout << "BLUE: " << i << endl;
                             }
                         }
                     }
@@ -514,45 +566,8 @@ bool Graph::partitionable(){
 bool Graph::MST(string file){
     ofstream myfile;
     myfile.open (file);
-    //map<int, bool>::iterator imm;
-    //cout << "Num of connected: " << numConnectedComps << endl;
-    //for(int i = 1; i <= numConnectedComps; i++){
-    //    cout << i << ": ";
-    //    for(imm = (connectedComps[i]).begin(); imm != (connectedComps[i]).end(); imm++){
-    //        cout << imm -> first << " ";
-    //    }
-    //    cout << endl;
-    //}
-    
-    /*
-    int countConnected = 0;
-    multimap<double,pair<int, int>> sortedList;
-    for(int i = 1; i <= numVertices; i++){
-        if((directed_matrix[i])[0] != 0){
-            for(int n = 1; n <= numVertices; n++){
-                bool found = false;
-                int count = sortedList.count(((directed_matrix[i])[n]));
-                if(count > 0){
-                    multimap<double,pair<int, int>>::iterator it;
-                    for (it=sortedList.equal_range(((directed_matrix[i])[n])).first; it!=sortedList.equal_range(((directed_matrix[i])[n])).second; it++){
-                        if((*it).second == make_pair(n, i)){
-                            found = true;
-                        }
-                    }
-                }
-                if(!found && (directed_matrix[i])[n] != 0){
-                    sortedList.insert(make_pair((directed_matrix[i])[n], make_pair(i, n)));
-                    //cout << i << "   " << n << endl;
-                }
-            }
-        }
-    }
-    */
     
     multimap<double, pair<int, int>>::iterator it;
-   // for(it= sortedList.begin(); it != sortedList.end(); it++){
-    //    cout << (*it).first << "   (" << get<0>((*it).second) << ", " << get<1>((*it).second) << ")" << endl;
-    //}
     if(numConnectedComps == 1){
         myfile << "{ {";
         for(int i = 1; i <= numVertices; i++){
@@ -574,7 +589,6 @@ bool Graph::MST(string file){
         }
         it = sortedList.begin();
         while(checking && it != sortedList.end()){
-            //cout << (*it).first << "   (" << get<0>((*it).second) << ", " << get<1>((*it).second) << ")" << endl;
             if(!(inMST[get<0>((*it).second)] == true && inMST[get<1>((*it).second)])){
                 myfile << "(" << get<0>((*it).second) << "," << get<1>((*it).second) << "," << (*it).first << ")";
                 inMST[get<0>((*it).second)] = true;
@@ -673,11 +687,14 @@ bool Graph::MST(string file){
 }
 
 void Graph::stepAway(int source, int closeness, string file){
+    ofstream myfile;
+    myfile.open (file);
     int count = 0;
-    cout << "STEP AWAY" << endl;
+    //cout << "STEP AWAY" << endl;
     for(int i = 1; i <= numVertices; i++){
         if((stepAwayMap[source])[i] == closeness){
-            cout << i << endl;
+            myfile << i << endl;
         }
     }
+    myfile.close();
 }

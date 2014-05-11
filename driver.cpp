@@ -11,25 +11,32 @@ int main(int argc, char* argv[]){
 	//declare a nanosecond holder
 	chrono::nanoseconds elapsed;
 	
-	
+	//Graph g2(Type::DIRECTED);
     Graph g1(Type::UNDIRECTED);
     g1.readFromFile(argv[1]);
+     // g2.readFromFile(argv[1]);
+    g1.printOutMatrix();
+      //g2.DFT(4,"g2DFT.txt");
     //g1.stepAway(4,-1,"sa.g2.4.-1.txt");
     //Graph g2(Type::DIRECTED); // empty
     //g1.readFromFile("testlarge.txt");
-    g1.printOutMatrix();
+   // g1.printOutMatrix();
     //g1.addVertex();
     //g1.addEdge(7, 8, 1.2);
     //cout << "Connected: " << g1.numConnectedComponents() << endl;
-    cout << "PART: " << g1.partitionable();
-    //g1.MST("MST.txt");
+    g1.DFT(7, "DFT2.txt");
+    g1.DFT(4, "DFT4.txt");
+    g1.MST("MST.txt");
     cout << endl;
     //cout << g1.tree() << endl;
     
     //get the current time (starts the timer)
 	start = chrono::monotonic_clock::now();
 	
-	g1.stepAway(2,1,"sa.g1.2.1.txt");
+    //g1.stepAway(4,-1,"sa.g2.4.-1.txt");
+    //g1.stepAway(2,-1,"sa.g1.2.-1.txt");
+    //g1.stepAway(1,2,"sa.g1.1.2.txt");
+    //g1.stepAway(2,1,"sa.g1.2.1.txt");
 	
 	//get the current time again (ends the timer)
 	finish = chrono::monotonic_clock::now();
@@ -39,7 +46,7 @@ int main(int argc, char* argv[]){
 
 	//prints out the number of elapsed nanoseconds
 	cout << elapsed.count() << " us" << endl;
-	g1.writeToFile("NEW.txt");
+//	g1.writeToFile("NEW.txt");
     /*int v1 = 1;
     int v2;
     while(v1 != 0){

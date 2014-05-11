@@ -10,6 +10,8 @@
 #include <stack>
 #include <queue>
 #include <utility>
+#include <list>
+#include <algorithm>
 
 //This class will be used to create a graph library.
 enum Type {DIRECTED,UNDIRECTED};
@@ -24,7 +26,7 @@ class Graph{
 	    std::map<int, std::map<int, int>> stepAwayMap;
 	    Type graphType;
 	    std::map<int, bool> checked_DFT;
-        std::map<int, bool> done_DFT;
+	    std::queue<int> DFT_queue;
 	    void DFT_helper(int source);
 	    int numConnectedComps;
 	    std::map<int, std::map<int, bool>> connectedComps;

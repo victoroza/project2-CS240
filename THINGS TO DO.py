@@ -9,9 +9,10 @@ THINGS TO DO
 #7. Add Vertex
 #8. Count Components
 #9. Tree Check
-10. DFT
+10. PLEASE TEST -- I THINK DONE
+
 #11. BFT
 #12. closeness - fixed for multi directional
-13. partition - NEED TO CHANGE FOR TREES
+#13. partition - NEED TO CHANGE FOR TREES
 #14. MST - 
 #15. Step Away - fixed for multi directional
