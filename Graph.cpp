@@ -274,35 +274,15 @@ void Graph::DFT(int source, string file){
         return;
     }
     //cout << directed_matrix[source][0] << endl;
-    //DFT_stack.push(source);
     checked_DFT[source] = true;
-    vector<double> DFT_temp_order;
     for(int i = 1; i <= numVertices; i++){
-        if(directed_matrix[source][i] > 0){
-            DFT_temp_order.push_back(directed_matrix[source][i]);
-        }
-    }
-    sort(DFT_temp_order.begin(), DFT_temp_order.end());//sort the temp list. Will be looking to match the value to know which vertices to traverse first.
-    queue<int> DFT_true_order;
-    while(DFT_true_order.size() != DFT_temp_order.size()){//getting the list in the correct order of vertices to get ready to traverse
-        for(int i = 0; i < DFT_temp_order.size(); i++){
-            for(int j = 1; j <= numVertices; j++){
-                if(directed_matrix[source][j] == DFT_temp_order[i]){
-                    DFT_true_order.push(j);
-                }
-            }
-        }
-    }
-    int size = DFT_true_order.size();
-    for(int i = 1; i <= size; i++){
-        int temp = DFT_true_order.front();
-        if(checked_DFT[temp] != true){
-            //DFT_stack.push(temp);
-            checked_DFT[temp] = true;
-            DFT_helper(temp);
-	    //DFT_queue.push(temp);
-        }
-        DFT_true_order.pop();
+	if(directed_matrix[source][i] > 0){
+		if(checked_DFT[i] != true){
+		    checked_DFT[i] = true;
+		    DFT_helper(i);
+		    DFT_queue.push(i);
+		}
+	}
     }
     DFT_queue.push(source);
     
@@ -328,35 +308,16 @@ void Graph::DFT(int source, string file){
 
 void Graph::DFT_helper(int source){
    
-    vector<double> DFT_temp_order;
-    for(int i = 1; i <= numVertices; i++){
-        if(directed_matrix[source][i] > 0){
-            DFT_temp_order.push_back(directed_matrix[source][i]);
-        }
+   
+    for(int i = 1; i <= numVertices ; i++){
+       	if(directed_matrix[source][i] > 0){
+		if(checked_DFT[i] != true){
+		    checked_DFT[i] = true;
+		    DFT_helper(i);
+		    DFT_queue.push(i);
+		}
+	}
     }
-    std::sort(DFT_temp_order.begin(), DFT_temp_order.end());//sort the temp list. Will be looking to match the value to know which vertices to traverse first.
-    queue<int> DFT_true_order;
-    while(DFT_true_order.size() != DFT_temp_order.size()){//getting the list in the correct order of vertices to get ready to traverse
-        for(int i = 0; i < DFT_temp_order.size(); i++){
-            for(int j = 1; j <= numVertices; j++){
-                if(directed_matrix[source][j] == DFT_temp_order[i]){
-                    DFT_true_order.push(j);
-                }
-            }
-        }
-    }
-    
-    for(int i = 1; i <= DFT_true_order.size() ; i++){
-        int temp = DFT_true_order.front();
-        if(checked_DFT[temp] != true){
-            //DFT_stack.push(temp);
-            checked_DFT[temp] = true;
-            DFT_helper(temp);
-	    //DFT_queue.push(temp);
-        }
-        DFT_true_order.pop();
-    }
-    DFT_queue.push(source);
 
     return;
     

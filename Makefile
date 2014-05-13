@@ -1,5 +1,5 @@
 COMPILER = g++
-FLAGS = -g -Wall -std=c++0x
+FLAGS = -g -Wall -std=c++0x -O3
 EXE = project2
 
 all: Graph.o driver.o
@@ -10,6 +10,10 @@ driver.o: driver.cpp
 	
 Graph.o: Graph.cpp
 	$(COMPILER) $(FLAGS) -c Graph.cpp
+
+Graph.a: Graph.o
+	ar -rcs Graph.a Graph.o
+	rm Graph.o
 	
 clean:
 	rm -f *.o $(EXE) 
