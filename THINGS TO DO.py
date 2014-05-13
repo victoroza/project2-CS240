@@ -9,7 +9,7 @@ THINGS TO DO
 #7. Add Vertex
 #8. Count Components
 #9. Tree Check
-10. PLEASE TEST -- I THINK DONE
+#10. PLEASE TEST -- I THINK DONE
 
 #11. BFT
 #12. closeness - fixed for multi directional

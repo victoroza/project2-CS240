@@ -1,9 +1,9 @@
 COMPILER = g++
 FLAGS = -g -Wall -std=c++0x -O3
-EXE = project2
+EXE = GraphLab
 
-all: Graph.o driver.o
-	$(COMPILER) $(FLAGS) -o $(EXE) Graph.o driver.o
+all: Graph.a driver.o
+	$(COMPILER) $(FLAGS) -o $(EXE) driver.o -L. Graph.a 
 	
 driver.o: driver.cpp
 	$(COMPILER) $(FLAGS) -c driver.cpp
@@ -16,4 +16,4 @@ Graph.a: Graph.o
 	rm Graph.o
 	
 clean:
-	rm -f *.o $(EXE) 
+	rm -f *.o $(EXE) Graph.a
